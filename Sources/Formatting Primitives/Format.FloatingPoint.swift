@@ -6,9 +6,11 @@ import Standard_Library_Extensions
 extension Format {
     /// Format style for converting floating-point values to strings with optional percentage and precision control.
     ///
-    /// Use this format to display decimal numbers or percentages. Works with all `FloatingPoint` types including `Double`, `Float`, and others. Chain methods to configure rounding and decimal precision.
+    /// Use this format to display decimal numbers or percentages. Works with `BinaryFloatingPoint` types including `Double` and `Float`. Chain methods to configure rounding and decimal precision.
     ///
-    /// Does not conform to `FormatStyle` because it works across multiple input types within the FloatingPoint category, not a single FormatInput type.
+    /// When precision is specified, trailing zeros are preserved to match the requested precision.
+    ///
+    /// Does not conform to `FormatStyle` because it works across multiple input types within the BinaryFloatingPoint category, not a single FormatInput type.
     ///
     /// ## Example
     ///
@@ -16,6 +18,7 @@ extension Format {
     /// 0.75.formatted(.percent)                   // "75%"
     /// 0.755.formatted(.percent.precision(2))     // "75.50%"
     /// 3.14159.formatted(.number.precision(2))    // "3.14"
+    /// 10.0.formatted(.number.precision(1))       // "10.0" (preserves trailing zero)
     /// ```
     public struct FloatingPoint: Sendable {
         @usableFromInline
@@ -49,7 +52,7 @@ extension Format.FloatingPoint {
     ///   - shouldRound: Whether to round to whole number
     ///   - precisionDigits: Optional number of decimal places
     /// - Returns: Formatted string representation
-    public static func format<T: Swift.FloatingPoint>(
+    public static func format<T: Swift.BinaryFloatingPoint>(
         _ value: T,
         isPercent: Bool,
         shouldRound: Bool,
@@ -65,19 +68,51 @@ extension Format.FloatingPoint {
             workingValue = workingValue.rounded()
         }
 
+        let result: String
         if let precision = precisionDigits {
-            let multiplier = T(10).power(precision)
-            workingValue = (workingValue * multiplier).rounded() / multiplier
-        }
-
-        var result = "\(workingValue)"
-
-        // Strip trailing ".0" for whole numbers (e.g., "10.0" -> "10")
-        if result.hasSuffix(".0") {
-            result.removeLast(2)
+            result = formatWithPrecision(workingValue, precision: precision)
+        } else {
+            // Auto mode: strip trailing ".0" for whole numbers
+            var autoResult = "\(workingValue)"
+            if autoResult.hasSuffix(".0") {
+                autoResult.removeLast(2)
+            }
+            result = autoResult
         }
 
         return isPercent ? result + "%" : result
+    }
+
+    /// Formats a value with specified decimal precision, padding with zeros if needed.
+    @usableFromInline
+    static func formatWithPrecision<T: Swift.BinaryFloatingPoint>(_ value: T, precision: Int) -> String {
+        guard precision > 0 else {
+            return "\(Int(value.rounded()))"
+        }
+
+        var multiplier: T = 1
+        for _ in 0..<precision {
+            multiplier *= 10
+        }
+
+        let rounded = (value * multiplier).rounded() / multiplier
+        let intPart = Int(rounded)
+        let fracPart = rounded - T(intPart)
+
+        if fracPart == 0 {
+            return "\(intPart)." + String(repeating: "0", count: precision)
+        }
+
+        // Calculate fractional digits
+        var fracValue = fracPart
+        var fracString = ""
+        for _ in 0..<precision {
+            fracValue *= 10
+            let digit = Int(fracValue) % 10
+            fracString += "\(digit)"
+        }
+
+        return "\(intPart).\(fracString)"
     }
 
     /// Converts the floating-point value to a string using this format's configuration.
@@ -85,7 +120,7 @@ extension Format.FloatingPoint {
     /// - Parameter value: Floating-point value to format
     /// - Returns: Formatted string representation
     @inlinable
-    public func format<T: Swift.FloatingPoint>(_ value: T) -> String {
+    public func format<T: Swift.BinaryFloatingPoint>(_ value: T) -> String {
         Self.format(
             value,
             isPercent: isPercent,
@@ -145,9 +180,9 @@ extension Format.FloatingPoint {
     }
 }
 
-// MARK: - FloatingPoint Extension
+// MARK: - BinaryFloatingPoint Extension
 
-extension Swift.FloatingPoint {
+extension Swift.BinaryFloatingPoint {
     /// Converts this floating-point value to a string using the specified format.
     ///
     /// ## Example
