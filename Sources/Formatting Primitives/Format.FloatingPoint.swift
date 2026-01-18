@@ -90,17 +90,22 @@ extension Format.FloatingPoint {
             return "\(Int(value.rounded()))"
         }
 
+        let isNegative = value < 0
+        let absValue = abs(value)
+
         var multiplier: T = 1
         for _ in 0..<precision {
             multiplier *= 10
         }
 
-        let rounded = (value * multiplier).rounded() / multiplier
+        let rounded = (absValue * multiplier).rounded() / multiplier
         let intPart = Int(rounded)
         let fracPart = rounded - T(intPart)
 
+        let sign = isNegative ? "-" : ""
+
         if fracPart == 0 {
-            return "\(intPart)." + String(repeating: "0", count: precision)
+            return sign + "\(intPart)." + String(repeating: "0", count: precision)
         }
 
         // Calculate fractional digits
@@ -112,7 +117,7 @@ extension Format.FloatingPoint {
             fracString += "\(digit)"
         }
 
-        return "\(intPart).\(fracString)"
+        return sign + "\(intPart).\(fracString)"
     }
 
     /// Converts the floating-point value to a string using this format's configuration.
