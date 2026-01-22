@@ -19,14 +19,17 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../swift-standard-library-extensions"),
-        .package(path: "../swift-identity-primitives")
+        .package(path: "../swift-identity-primitives"),
+        // Semantic dependency: formatting produces string output
+        // .package(path: "../swift-string-primitives"),
     ],
     targets: [
         .target(
             name: "Formatting Primitives",
             dependencies: [
                 .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
-                .product(name: "Identity Primitives", package: "swift-identity-primitives")
+                .product(name: "Identity Primitives", package: "swift-identity-primitives"),
+                // .product(name: "String Primitives", package: "swift-string-primitives"),
             ]
         )
     ],
