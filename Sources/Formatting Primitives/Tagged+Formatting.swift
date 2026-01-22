@@ -13,7 +13,7 @@ public import Identity_Primitives
 
 // MARK: - Formatted Output
 
-extension Tagged where RawValue: BinaryFloatingPoint {
+extension Tagged where Tag: ~Copyable, RawValue: BinaryFloatingPoint {
     /// Converts this tagged value to a string using the specified format.
     ///
     /// This allows formatting the underlying raw value while keeping the Tagged API clean.
