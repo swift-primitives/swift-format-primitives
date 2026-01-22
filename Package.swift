@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         .package(path: "../swift-standard-library-extensions"),
         .package(path: "../swift-identity-primitives"),
-        // Semantic dependency: formatting produces string output
+        // SDG(produces): formatting produces string output
         // .package(path: "../swift-string-primitives"),
     ],
     targets: [
