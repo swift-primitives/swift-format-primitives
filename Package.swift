@@ -31,7 +31,13 @@ let package = Package(
                 .product(name: "Identity Primitives", package: "swift-identity-primitives"),
                 // .product(name: "String Primitives", package: "swift-string-primitives"),
             ]
-        )
+        ),
+        .testTarget(
+            name: "Formatting Primitives Tests",
+            dependencies: [
+                "Formatting Primitives",
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -42,6 +48,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
         .enableExperimentalFeature("SuppressedAssociatedTypes"),
         .enableExperimentalFeature("SuppressedAssociatedTypesWithDefaults"),
