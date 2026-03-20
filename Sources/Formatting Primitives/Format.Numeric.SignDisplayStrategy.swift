@@ -1,4 +1,4 @@
-// Format.Numeric.SignDisplayStrategy.swift
+// Format.Numeric.Sign.swift
 // Sign display strategies for numeric formatting.
 
 extension Format.Numeric {
@@ -12,7 +12,7 @@ extension Format.Numeric {
     /// 42.formatted(.number.sign(strategy: .always()))     // "+42"
     /// (-42).formatted(.number.sign(strategy: .never))     // "42"
     /// ```
-    public enum SignDisplayStrategy: Sendable, Equatable {
+    public enum Sign: Sendable, Equatable {
         /// Displays minus sign for negatives, no sign for positives (default behavior)
         case automatic
 

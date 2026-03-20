@@ -1,6 +1,6 @@
 /// Namespace containing formatting types and protocols.
 ///
-/// Use this namespace to access format styles for converting values to strings. Provides built-in support for integers (decimal, binary, octal) and floating-point numbers (decimal, percentage). Additional format styles can be created by conforming to `FormatStyle`.
+/// Use this namespace to access format styles for converting values to strings. Provides built-in support for integers (decimal, binary, octal) and floating-point numbers (decimal, percentage). Additional format styles can be created by conforming to `Format.Style`.
 ///
 /// ## Example
 ///

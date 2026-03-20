@@ -1,5 +1,5 @@
-// Format.FloatingPoint.swift
-// Formatting for FloatingPoint types.
+// Format.Decimal.swift
+// Formatting for Decimal types.
 
 import Standard_Library_Extensions
 
@@ -10,7 +10,7 @@ extension Format {
     ///
     /// When precision is specified, trailing zeros are preserved to match the requested precision.
     ///
-    /// Does not conform to `FormatStyle` because it works across multiple input types within the BinaryFloatingPoint category, not a single FormatInput type.
+    /// Does not conform to `Format.Style` because it works across multiple input types within the BinaryFloatingPoint category, not a single Input type.
     ///
     /// ## Example
     ///
@@ -20,7 +20,7 @@ extension Format {
     /// 3.14159.formatted(.number.precision(2))    // "3.14"
     /// 10.0.formatted(.number.precision(1))       // "10.0" (preserves trailing zero)
     /// ```
-    public struct FloatingPoint: Sendable {
+    public struct Decimal: Sendable {
         @usableFromInline
         let isPercent: Bool
         public let shouldRound: Bool
@@ -41,9 +41,9 @@ extension Format {
     }
 }
 
-// MARK: - Format.FloatingPoint Format Method
+// MARK: - Format.Decimal Format Method
 
-extension Format.FloatingPoint {
+extension Format.Decimal {
     /// Converts the floating-point value to a string using this format's configuration.
     ///
     /// - Parameters:
@@ -135,9 +135,9 @@ extension Format.FloatingPoint {
     }
 }
 
-// MARK: - Format.FloatingPoint Static Properties
+// MARK: - Format.Decimal Static Properties
 
-extension Format.FloatingPoint {
+extension Format.Decimal {
     /// Standard decimal format for floating-point values
     ///
     /// ## Example
@@ -157,9 +157,9 @@ extension Format.FloatingPoint {
     }
 }
 
-// MARK: - Format.FloatingPoint Chaining Methods
+// MARK: - Format.Decimal Chaining Methods
 
-extension Format.FloatingPoint {
+extension Format.Decimal {
     /// Returns a format that rounds to the nearest whole number.
     ///
     /// ## Example
@@ -201,7 +201,7 @@ extension Swift.BinaryFloatingPoint {
     /// - Parameter format: Format style to apply
     /// - Returns: Formatted string representation
     @inlinable
-    public func formatted(_ format: Format.FloatingPoint) -> String {
+    public func formatted(_ format: Format.Decimal) -> String {
         format.format(self)
     }
 }

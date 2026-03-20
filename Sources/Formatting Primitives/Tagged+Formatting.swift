@@ -30,7 +30,7 @@ extension Tagged where Tag: ~Copyable, RawValue: BinaryFloatingPoint {
     /// - Parameter format: Format style to apply
     /// - Returns: Formatted string representation
     @inlinable
-    public func formatted(_ format: Format.FloatingPoint) -> String {
+    public func formatted(_ format: Format.Decimal) -> String {
         format.format(rawValue)
     }
 }

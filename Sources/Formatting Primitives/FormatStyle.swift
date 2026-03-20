@@ -5,9 +5,9 @@
 /// ## Example
 ///
 /// ```swift
-/// struct CurrencyStyle: FormatStyle {
-///     typealias FormatInput = Double
-///     typealias FormatOutput = String
+/// struct CurrencyStyle: Format.Style {
+///     typealias Input = Double
+///     typealias Output = String
 ///
 ///     @inlinable
 ///     func format(_ value: Double) -> String {
@@ -17,18 +17,20 @@
 ///
 /// 42.5.formatted(CurrencyStyle())  // "$42.50"
 /// ```
-public protocol FormatStyle<FormatInput, FormatOutput>: Sendable {
-    /// Input value type accepted by this format style
-    associatedtype FormatInput
+extension Format {
+    public protocol Style<Input, Output>: Sendable {
+        /// Input value type accepted by this format style
+        associatedtype Input
 
-    /// Output type produced by formatting
-    associatedtype FormatOutput
+        /// Output type produced by formatting
+        associatedtype Output
 
-    /// Converts a value to the formatted output type.
-    ///
-    /// - Parameter value: Value to format
-    /// - Returns: Formatted output
-    func format(_ value: FormatInput) -> FormatOutput
+        /// Converts a value to the formatted output type.
+        ///
+        /// - Parameter value: Value to format
+        /// - Returns: Formatted output
+        func format(_ value: Input) -> Output
+    }
 }
 
 // MARK: - BinaryFloatingPoint + formatted()
@@ -39,8 +41,8 @@ extension BinaryFloatingPoint {
     /// - Parameter format: Format style to apply
     /// - Returns: Formatted output
     @inlinable
-    public func formatted<S>(_ format: S) -> S.FormatOutput
-    where Self == S.FormatInput, S: FormatStyle {
+    public func formatted<S>(_ format: S) -> S.Output
+    where Self == S.Input, S: Format.Style {
         format.format(self)
     }
 
@@ -49,9 +51,9 @@ extension BinaryFloatingPoint {
     /// - Parameter format: Format style to apply
     /// - Returns: Formatted output
     @inlinable
-    public func formatted<S>(_ format: S) -> S.FormatOutput
-    where S: FormatStyle, S.FormatInput: BinaryFloatingPoint {
-        format.format(S.FormatInput(self))
+    public func formatted<S>(_ format: S) -> S.Output
+    where S: Format.Style, S.Input: BinaryFloatingPoint {
+        format.format(S.Input(self))
     }
 }
 
@@ -63,8 +65,8 @@ extension BinaryInteger {
     /// - Parameter format: Format style to apply
     /// - Returns: Formatted output
     @inlinable
-    public func formatted<S>(_ format: S) -> S.FormatOutput
-    where Self == S.FormatInput, S: FormatStyle {
+    public func formatted<S>(_ format: S) -> S.Output
+    where Self == S.Input, S: Format.Style {
         format.format(self)
     }
 
@@ -73,8 +75,8 @@ extension BinaryInteger {
     /// - Parameter format: Format style to apply
     /// - Returns: Formatted output
     @inlinable
-    public func formatted<S>(_ format: S) -> S.FormatOutput
-    where S: FormatStyle, S.FormatInput: BinaryInteger {
-        format.format(S.FormatInput(self))
+    public func formatted<S>(_ format: S) -> S.Output
+    where S: Format.Style, S.Input: BinaryInteger {
+        format.format(S.Input(self))
     }
 }
