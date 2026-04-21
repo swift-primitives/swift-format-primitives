@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-formatting-primitives",
+    name: "swift-format-primitives",
     platforms: [
         .macOS(.v26),
         .iOS(.v26),
@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Formatting Primitives",
-            targets: ["Formatting Primitives"]
+            name: "Format Primitives",
+            targets: ["Format Primitives"]
         )
     ],
     dependencies: [
@@ -25,7 +25,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Formatting Primitives",
+            name: "Format Primitives",
             dependencies: [
                 .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
                 .product(name: "Identity Primitives", package: "swift-identity-primitives"),
@@ -35,7 +35,7 @@ let package = Package(
         .testTarget(
             name: "Formatting Primitives Tests",
             dependencies: [
-                "Formatting Primitives",
+                "Format Primitives",
             ]
         ),
     ],

@@ -1,6 +1,6 @@
 // FloatingPoint+Formatting Tests.swift
 
-import Formatting_Primitives
+import Format_Primitives
 import Testing
 
 // MARK: - Test Suite Declaration (Parallel Namespace per [TEST-004])
