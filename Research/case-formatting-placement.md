@@ -144,7 +144,7 @@ extension Format.Case {
 
 Path: `Format.Case.Insensitive` — proper `Nest.Name` per [API-NAME-001], no compound identifier.
 
-**B2 — split to a hashing-focused package (deferred)**: a future `swift-hash-primitives` or `swift-identity-primitives` could reasonably own `Case.Insensitive` as a case-folding wrapper. Not pursued in this move — would fragment the case surface across two packages when consumers expect one discovery point. If hashing-primitives materializes later, migration is a straightforward rename-import.
+**B2 — split to a hashing-focused package (deferred)**: a future `swift-hash-primitives` or `swift-tagged-primitives` could reasonably own `Case.Insensitive` as a case-folding wrapper. Not pursued in this move — would fragment the case surface across two packages when consumers expect one discovery point. If hashing-primitives materializes later, migration is a straightforward rename-import.
 
 **Recommendation**: B1. The `Case` namespace is small; housing both the transformation style and the hashing wrapper keeps case-related surface discoverable from one import.
 

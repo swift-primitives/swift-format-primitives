@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../swift-standard-library-extensions"),
-        .package(path: "../swift-identity-primitives"),
+        .package(path: "../swift-tagged-primitives"),
         // SDG(produces): formatting produces string output
         // .package(path: "../swift-string-primitives"),
     ],
@@ -28,7 +28,7 @@ let package = Package(
             name: "Format Primitives",
             dependencies: [
                 .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
-                .product(name: "Identity Primitives", package: "swift-identity-primitives"),
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
                 // .product(name: "String Primitives", package: "swift-string-primitives"),
             ]
         ),

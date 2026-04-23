@@ -9,7 +9,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-public import Identity_Primitives
+public import Tagged_Primitives
 
 // MARK: - Formatted Output
 
