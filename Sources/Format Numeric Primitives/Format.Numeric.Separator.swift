@@ -1,4 +1,4 @@
-// Format.Numeric.DecimalSeparatorStrategy.swift
+// Format.Numeric.Separator.swift
 // Decimal separator display strategies for numeric formatting.
 
 extension Format.Numeric {
@@ -12,11 +12,11 @@ extension Format.Numeric {
     /// 42.formatted(.number.decimalSeparator(strategy: .always))    // "42."
     /// 42.5.formatted(.number.decimalSeparator(strategy: .always))  // "42.5"
     /// ```
-    public enum DecimalSeparatorStrategy: Sendable, Equatable {
-        /// Displays decimal point only when fractional digits exist (default behavior)
+    public enum Separator: Sendable, Equatable {
+        /// Displays the decimal point only when fractional digits exist (default behavior).
         case automatic
 
-        /// Forces decimal point to display even for whole numbers
+        /// Forces the decimal point to display even for whole numbers.
         case always
     }
 }

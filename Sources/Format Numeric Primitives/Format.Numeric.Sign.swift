@@ -1,4 +1,4 @@
-// Format.Numeric.SignDisplayStrategy.swift
+// Format.Numeric.Sign.swift
 // Sign display strategies for numeric formatting.
 
 extension Format.Numeric {
@@ -12,16 +12,16 @@ extension Format.Numeric {
     /// 42.formatted(.number.sign(strategy: .always()))     // "+42"
     /// (-42).formatted(.number.sign(strategy: .never))     // "42"
     /// ```
-    public enum SignDisplayStrategy: Sendable, Equatable {
-        /// Displays minus sign for negatives, no sign for positives (default behavior)
+    public enum Sign: Sendable, Equatable {
+        /// Displays a minus sign for negatives and no sign for positives (default behavior).
         case automatic
 
-        /// Hides sign for all numbers, even negatives
+        /// Hides the sign for all numbers, even negatives.
         case never
 
-        /// Shows sign for all numbers: plus for positives, minus for negatives
+        /// Shows a sign for all numbers: plus for positives, minus for negatives.
         ///
-        /// - Parameter includingZero: When `true`, zero displays as "+0"; when `false`, zero has no sign
+        /// - Parameter includingZero: When `true`, zero displays as "+0"; when `false`, zero has no sign.
         case always(includingZero: Bool = false)
     }
 }

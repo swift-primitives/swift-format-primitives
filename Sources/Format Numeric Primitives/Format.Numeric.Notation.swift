@@ -13,15 +13,15 @@ extension Format.Numeric {
     /// 1234.formatted(.number.notation(.scientific))    // "1.234E3"
     /// ```
     public enum Notation: Sendable, Equatable {
-        /// Standard decimal representation without abbreviation
+        /// Standard decimal representation without abbreviation.
         case automatic
 
-        /// Abbreviates large numbers with K, M, or B suffix
+        /// Abbreviates large numbers with a K, M, or B suffix.
         ///
         /// Examples: 1,000 → "1K", 1,000,000 → "1M", 1,000,000,000 → "1B"
         case compactName
 
-        /// Displays numbers in scientific notation with exponent
+        /// Displays numbers in scientific notation with an exponent.
         ///
         /// Examples: 1234 → "1.234E3", 0.00123 → "1.23E-3"
         case scientific

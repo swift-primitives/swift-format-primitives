@@ -9,15 +9,15 @@
 //
 // ===----------------------------------------------------------------------===//
 
-import Identity_Primitives
+public import Tagged_Primitives
 
 // MARK: - Formatted Output
 
-extension Tagged where RawValue: FloatingPoint {
+extension Tagged where Tag: ~Copyable & ~Escapable, Underlying: BinaryFloatingPoint {
     /// Converts this tagged value to a string using the specified format.
     ///
-    /// This allows formatting the underlying raw value while keeping the Tagged API clean.
-    /// The format is applied to the raw value directly.
+    /// This allows formatting the underlying value while keeping the Tagged API clean.
+    /// The format is applied to the underlying value directly.
     ///
     /// ## Example
     ///
@@ -30,7 +30,7 @@ extension Tagged where RawValue: FloatingPoint {
     /// - Parameter format: Format style to apply
     /// - Returns: Formatted string representation
     @inlinable
-    public func formatted(_ format: Format.FloatingPoint) -> String {
-        format.format(rawValue)
+    public func formatted(_ format: Format.Decimal) -> String {
+        format.format(underlying)
     }
 }

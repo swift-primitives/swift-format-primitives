@@ -1,14 +1,16 @@
-// Format.FloatingPoint.swift
-// Formatting for FloatingPoint types.
+// Format.Decimal.swift
+// Formatting for Decimal types.
 
 import Standard_Library_Extensions
 
 extension Format {
     /// Format style for converting floating-point values to strings with optional percentage and precision control.
     ///
-    /// Use this format to display decimal numbers or percentages. Works with all `FloatingPoint` types including `Double`, `Float`, and others. Chain methods to configure rounding and decimal precision.
+    /// Use this format to display decimal numbers or percentages. Works with `BinaryFloatingPoint` types including `Double` and `Float`. Chain methods to configure rounding and decimal precision.
     ///
-    /// Does not conform to `FormatStyle` because it works across multiple input types within the FloatingPoint category, not a single FormatInput type.
+    /// When precision is specified, trailing zeros are preserved to match the requested precision.
+    ///
+    /// Does not conform to `Format.Style` because it works across multiple input types within the BinaryFloatingPoint category, not a single Input type.
     ///
     /// ## Example
     ///
@@ -16,11 +18,16 @@ extension Format {
     /// 0.75.formatted(.percent)                   // "75%"
     /// 0.755.formatted(.percent.precision(2))     // "75.50%"
     /// 3.14159.formatted(.number.precision(2))    // "3.14"
+    /// 10.0.formatted(.number.precision(1))       // "10.0" (preserves trailing zero)
     /// ```
-    public struct FloatingPoint: Sendable {
+    public struct Decimal: Sendable {
         @usableFromInline
         let isPercent: Bool
+
+        /// Whether the value is rounded to the nearest whole number before formatting.
         public let shouldRound: Bool
+
+        /// The fixed number of fractional digits to emit, or `nil` to format at the value's natural precision.
         public let precisionDigits: Int?
 
         @usableFromInline
@@ -30,6 +37,7 @@ extension Format {
             self.precisionDigits = precisionDigits
         }
 
+        /// Creates a decimal format with the given rounding and precision, formatting as a plain number.
         public init(shouldRound: Bool = false, precisionDigits: Int? = nil) {
             self.isPercent = false
             self.shouldRound = shouldRound
@@ -38,9 +46,9 @@ extension Format {
     }
 }
 
-// MARK: - Format.FloatingPoint Format Method
+// MARK: - Format.Decimal Format Method
 
-extension Format.FloatingPoint {
+extension Format.Decimal {
     /// Converts the floating-point value to a string using this format's configuration.
     ///
     /// - Parameters:
@@ -49,7 +57,7 @@ extension Format.FloatingPoint {
     ///   - shouldRound: Whether to round to whole number
     ///   - precisionDigits: Optional number of decimal places
     /// - Returns: Formatted string representation
-    public static func format<T: Swift.FloatingPoint>(
+    public static func format<T: Swift.BinaryFloatingPoint>(
         _ value: T,
         isPercent: Bool,
         shouldRound: Bool,
@@ -65,19 +73,56 @@ extension Format.FloatingPoint {
             workingValue = workingValue.rounded()
         }
 
+        let result: String
         if let precision = precisionDigits {
-            let multiplier = T(10).power(precision)
-            workingValue = (workingValue * multiplier).rounded() / multiplier
-        }
-
-        var result = "\(workingValue)"
-
-        // Strip trailing ".0" for whole numbers (e.g., "10.0" -> "10")
-        if result.hasSuffix(".0") {
-            result.removeLast(2)
+            result = formatWithPrecision(workingValue, precision: precision)
+        } else {
+            // Auto mode: strip trailing ".0" for whole numbers
+            var autoResult = "\(workingValue)"
+            if autoResult.hasSuffix(".0") {
+                autoResult.removeLast(2)
+            }
+            result = autoResult
         }
 
         return isPercent ? result + "%" : result
+    }
+
+    /// Formats a value with specified decimal precision, padding with zeros if needed.
+    @usableFromInline
+    static func formatWithPrecision<T: Swift.BinaryFloatingPoint>(_ value: T, precision: Int) -> String {
+        guard precision > 0 else {
+            return "\(Int(value.rounded()))"
+        }
+
+        let isNegative = value < 0
+        let absValue = abs(value)
+
+        var multiplier: T = 1
+        for _ in 0..<precision {
+            multiplier *= 10
+        }
+
+        let rounded = (absValue * multiplier).rounded() / multiplier
+        let intPart = Int(rounded)
+        let fracPart = rounded - T(intPart)
+
+        let sign = isNegative ? "-" : ""
+
+        if fracPart == 0 {
+            return sign + "\(intPart)." + String(repeating: "0", count: precision)
+        }
+
+        // Calculate fractional digits
+        var fracValue = fracPart
+        var fracString = ""
+        for _ in 0..<precision {
+            fracValue *= 10
+            let digit = Int(fracValue) % 10
+            fracString += "\(digit)"
+        }
+
+        return sign + "\(intPart).\(fracString)"
     }
 
     /// Converts the floating-point value to a string using this format's configuration.
@@ -85,7 +130,7 @@ extension Format.FloatingPoint {
     /// - Parameter value: Floating-point value to format
     /// - Returns: Formatted string representation
     @inlinable
-    public func format<T: Swift.FloatingPoint>(_ value: T) -> String {
+    public func format<T: Swift.BinaryFloatingPoint>(_ value: T) -> String {
         Self.format(
             value,
             isPercent: isPercent,
@@ -95,10 +140,10 @@ extension Format.FloatingPoint {
     }
 }
 
-// MARK: - Format.FloatingPoint Static Properties
+// MARK: - Format.Decimal Static Properties
 
-extension Format.FloatingPoint {
-    /// Standard decimal format for floating-point values
+extension Format.Decimal {
+    /// Standard decimal format for floating-point values.
     ///
     /// ## Example
     ///
@@ -110,16 +155,16 @@ extension Format.FloatingPoint {
         .init(isPercent: false, shouldRound: false, precisionDigits: nil)
     }
 
-    /// Percentage format that multiplies by 100 and appends "%" symbol
+    /// Percentage format that multiplies by 100 and appends a "%" symbol.
     @inlinable
     public static var percent: Self {
         .init(isPercent: true, shouldRound: false, precisionDigits: nil)
     }
 }
 
-// MARK: - Format.FloatingPoint Chaining Methods
+// MARK: - Format.Decimal Chaining Methods
 
-extension Format.FloatingPoint {
+extension Format.Decimal {
     /// Returns a format that rounds to the nearest whole number.
     ///
     /// ## Example
@@ -142,26 +187,5 @@ extension Format.FloatingPoint {
     @inlinable
     public func precision(_ digits: Int) -> Self {
         .init(isPercent: isPercent, shouldRound: shouldRound, precisionDigits: digits)
-    }
-}
-
-// MARK: - FloatingPoint Extension
-
-extension Swift.FloatingPoint {
-    /// Converts this floating-point value to a string using the specified format.
-    ///
-    /// ## Example
-    ///
-    /// ```swift
-    /// 0.75.formatted(.percent)                 // "75%"
-    /// Float(0.5).formatted(.percent)           // "50%"
-    /// 0.755.formatted(.percent.precision(2))   // "75.50%"
-    /// ```
-    ///
-    /// - Parameter format: Format style to apply
-    /// - Returns: Formatted string representation
-    @inlinable
-    public func formatted(_ format: Format.FloatingPoint) -> String {
-        format.format(self)
     }
 }
