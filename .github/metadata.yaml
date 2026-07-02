@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "Format types for Swift."
+description: "Decimal, percentage, and string-case formatting styles surfaced via .formatted(_:) for Swift."
 topics:
   - primitives
   - format
