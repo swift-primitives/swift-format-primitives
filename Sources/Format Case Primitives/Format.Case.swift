@@ -30,15 +30,6 @@ extension Format {
     /// "hello".formatted(alternating)      // "HeLlO"
     /// ```
     public struct Case: Sendable, Formatter.`Protocol` {
-        /// The value this formatter accepts: the `String` to transform.
-        public typealias Input = String
-
-        /// The value this formatter produces: the case-transformed `String`.
-        public typealias Output = String
-
-        /// The error this formatter can raise: `Never`, because case transformation cannot fail.
-        public typealias Failure = Never
-
         @usableFromInline
         let transform: @Sendable (String) -> String
 
@@ -49,42 +40,53 @@ extension Format {
         public init(_ transform: @escaping @Sendable (String) -> String) {
             self.transform = transform
         }
+    }
+}
 
-        /// Applies this case transformation to a string.
-        ///
-        /// - Parameter value: The string to transform.
-        /// - Returns: The transformed string.
-        @inlinable
-        public func format(_ value: String) -> String {
-            transform(value)
-        }
+extension Format.Case {
+    /// The value this formatter accepts: the `String` to transform.
+    public typealias Input = String
 
-        /// Uppercase transformation (HELLO WORLD).
-        public static let upper: Self = Self { $0.uppercased() }
+    /// The value this formatter produces: the case-transformed `String`.
+    public typealias Output = String
 
-        /// Lowercase transformation (hello world).
-        public static let lower: Self = Self { $0.lowercased() }
+    /// The error this formatter can raise: `Never`, because case transformation cannot fail.
+    public typealias Failure = Never
 
-        /// Title case transformation (Hello World).
-        ///
-        /// Splits on ASCII space and capitalizes the first character of each word.
-        /// Does not apply Unicode word-boundary rules (UAX #29); callers needing
-        /// strict Unicode semantics should use `Swift.String.capitalized`.
-        public static let title: Self = Self { string in
-            string.split(separator: " ")
-                .map { word in
-                    guard let first = word.first else { return "" }
-                    return first.uppercased() + word.dropFirst().lowercased()
-                }
-                .joined(separator: " ")
-        }
+    /// Applies this case transformation to a string.
+    ///
+    /// - Parameter value: The string to transform.
+    /// - Returns: The transformed string.
+    @inlinable
+    public func format(_ value: String) -> String {
+        transform(value)
+    }
 
-        /// Sentence case transformation (Hello world).
-        ///
-        /// Capitalizes only the first character of the string; lowercases the remainder.
-        public static let sentence: Self = Self { string in
-            guard let first = string.first else { return string }
-            return first.uppercased() + string.dropFirst().lowercased()
-        }
+    /// Uppercase transformation (HELLO WORLD).
+    public static let upper: Self = Self { $0.uppercased() }
+
+    /// Lowercase transformation (hello world).
+    public static let lower: Self = Self { $0.lowercased() }
+
+    /// Title case transformation (Hello World).
+    ///
+    /// Splits on ASCII space and capitalizes the first character of each word.
+    /// Does not apply Unicode word-boundary rules (UAX #29); callers needing
+    /// strict Unicode semantics should use `Swift.String.capitalized`.
+    public static let title: Self = Self { string in
+        string.split(separator: " ")
+            .map { word in
+                guard let first = word.first else { return "" }
+                return first.uppercased() + word.dropFirst().lowercased()
+            }
+            .joined(separator: " ")
+    }
+
+    /// Sentence case transformation (Hello world).
+    ///
+    /// Capitalizes only the first character of the string; lowercases the remainder.
+    public static let sentence: Self = Self { string in
+        guard let first = string.first else { return string }
+        return first.uppercased() + string.dropFirst().lowercased()
     }
 }

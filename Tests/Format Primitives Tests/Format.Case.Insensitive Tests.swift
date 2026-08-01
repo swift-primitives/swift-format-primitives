@@ -6,6 +6,10 @@ import Testing
 
 @Suite
 struct `Format.Case.Insensitive - Equality` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `Same strings are equal`() {
@@ -31,6 +35,10 @@ struct `Format.Case.Insensitive - Equality` {
 
 @Suite
 struct `Format.Case.Insensitive - Hashing` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `Same case strings have same hash`() {

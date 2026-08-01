@@ -29,23 +29,25 @@ extension Format.Case {
         public init(_ value: some StringProtocol) {
             self.value = String(value)
         }
+    }
+}
 
-        /// Hashes the lowercased form of the wrapped string, so values that differ only in case hash equally.
-        @inlinable
-        public func hash(into hasher: inout Hasher) {
-            value.lowercased().hash(into: &hasher)
-        }
+extension Format.Case.Insensitive {
+    /// Hashes the lowercased form of the wrapped string, so values that differ only in case hash equally.
+    @inlinable
+    public func hash(into hasher: inout Hasher) {
+        value.lowercased().hash(into: &hasher)
+    }
 
-        /// Reports whether two wrappers hold the same string ignoring case.
-        @inlinable
-        public static func == (lhs: Self, rhs: Self) -> Bool {
-            lhs.value.lowercased() == rhs.value.lowercased()
-        }
+    /// Reports whether two wrappers hold the same string ignoring case.
+    @inlinable
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.value.lowercased() == rhs.value.lowercased()
+    }
 
-        /// Orders two wrappers by the lexicographic comparison of their lowercased strings.
-        @inlinable
-        public static func < (lhs: Self, rhs: Self) -> Bool {
-            lhs.value.lowercased() < rhs.value.lowercased()
-        }
+    /// Orders two wrappers by the lexicographic comparison of their lowercased strings.
+    @inlinable
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.value.lowercased() < rhs.value.lowercased()
     }
 }

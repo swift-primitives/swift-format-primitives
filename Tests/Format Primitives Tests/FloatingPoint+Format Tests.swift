@@ -5,17 +5,17 @@ import Testing
 
 // MARK: - Test Suite Declaration (Parallel Namespace per [TEST-004])
 
-@Suite("Format.FloatingPoint")
-struct FormatFloatingPointTests {
+@Suite
+struct `Format Floating Point Tests` {
     @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+    @Suite struct `Edge Case` {}
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
 
 // MARK: - Unit Tests
 
-extension FormatFloatingPointTests.Unit {
+extension `Format Floating Point Tests`.Unit {
     @Test
     func `number format strips trailing zero`() {
         #expect(10.0.formatted(.number) == "10")
@@ -71,7 +71,7 @@ extension FormatFloatingPointTests.Unit {
 
 // MARK: - Edge Case Tests
 
-extension FormatFloatingPointTests.EdgeCase {
+extension `Format Floating Point Tests`.`Edge Case` {
     @Test
     func `very small values`() {
         #expect(0.0001.formatted(.percent) == "0.01%")

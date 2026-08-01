@@ -7,6 +7,10 @@ import Testing
 
 @Suite
 struct `Format.Case - Upper` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `Lowercase to uppercase`() {
@@ -31,6 +35,10 @@ struct `Format.Case - Upper` {
 
 @Suite
 struct `Format.Case - Lower` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `Uppercase to lowercase`() {
@@ -50,6 +58,10 @@ struct `Format.Case - Lower` {
 
 @Suite
 struct `Format.Case - Title` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `Basic title case`() {
@@ -79,6 +91,10 @@ struct `Format.Case - Title` {
 
 @Suite
 struct `Format.Case - Sentence` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `First letter capitalized, rest lowered`() {
@@ -105,6 +121,10 @@ struct `Format.Case - Sentence` {
 
 @Suite
 struct `Format.Case - Custom` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `Identity transformation`() {
@@ -123,6 +143,10 @@ struct `Format.Case - Custom` {
 
 @Suite
 struct `StringProtocol.formatted - Substring` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `Substring formats via upper`() {
@@ -143,6 +167,10 @@ struct `StringProtocol.formatted - Substring` {
 
 @Suite
 struct `Format.Case - Formatter.Protocol conformance` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     @Test
     func `format() method applies transform`() {
