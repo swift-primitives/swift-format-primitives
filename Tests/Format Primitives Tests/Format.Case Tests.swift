@@ -11,7 +11,6 @@ struct `Format.Case - Upper` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-
     @Test
     func `Lowercase to uppercase`() {
         #expect("hello world".formatted(.upper) == "HELLO WORLD")
@@ -39,7 +38,6 @@ struct `Format.Case - Lower` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-
     @Test
     func `Uppercase to lowercase`() {
         #expect("HELLO WORLD".formatted(.lower) == "hello world")
@@ -61,7 +59,6 @@ struct `Format.Case - Title` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
-
 
     @Test
     func `Basic title case`() {
@@ -95,7 +92,6 @@ struct `Format.Case - Sentence` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-
     @Test
     func `First letter capitalized, rest lowered`() {
         #expect("hello world".formatted(.sentence) == "Hello world")
@@ -125,7 +121,6 @@ struct `Format.Case - Custom` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-
     @Test
     func `Identity transformation`() {
         let identity = Format.Case { $0 }
@@ -146,7 +141,6 @@ struct `StringProtocol.formatted - Substring` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
-
 
     @Test
     func `Substring formats via upper`() {
@@ -170,7 +164,6 @@ struct `Format.Case - Formatter.Protocol conformance` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
-
 
     @Test
     func `format() method applies transform`() {
