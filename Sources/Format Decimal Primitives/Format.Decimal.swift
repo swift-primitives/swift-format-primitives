@@ -90,7 +90,10 @@ extension Format.Decimal {
 
     /// Formats a value with specified decimal precision, padding with zeros if needed.
     @usableFromInline
-    static func formatWithPrecision<T: Swift.BinaryFloatingPoint>(_ value: T, precision: Int) -> String {
+    static func formatWithPrecision<T: Swift.BinaryFloatingPoint>(
+        _ value: T,
+        precision: Int
+    ) -> String {
         guard precision > 0 else {
             return "\(Int(value.rounded()))"
         }
