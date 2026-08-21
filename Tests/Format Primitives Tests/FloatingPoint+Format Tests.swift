@@ -1,9 +1,5 @@
-// FloatingPoint+Formatting Tests.swift
-
 import Format_Primitives
 import Testing
-
-// MARK: - Test Suite Declaration (Parallel Namespace per [TEST-004])
 
 @Suite
 struct `Format Floating Point Tests` {
@@ -12,8 +8,6 @@ struct `Format Floating Point Tests` {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension `Format Floating Point Tests`.Unit {
     @Test
@@ -68,8 +62,6 @@ extension `Format Floating Point Tests`.Unit {
         #expect(Float(0.755).formatted(.percent.rounded()) == "76%")
     }
 }
-
-// MARK: - Edge Case Tests
 
 extension `Format Floating Point Tests`.`Edge Case` {
     @Test

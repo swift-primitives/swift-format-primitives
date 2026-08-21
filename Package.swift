@@ -12,13 +12,12 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        // MARK: - Namespace
+
         .library(
             name: "Format Primitive",
             targets: ["Format Primitive"]
         ),
 
-        // MARK: - Sub-namespace targets
         .library(
             name: "Format Case Primitives",
             targets: ["Format Case Primitives"]
@@ -32,19 +31,16 @@ let package = Package(
             targets: ["Format Numeric Primitives"]
         ),
 
-        // MARK: - StdLib Integration
         .library(
             name: "Format Primitives Standard Library Integration",
             targets: ["Format Primitives Standard Library Integration"]
         ),
 
-        // MARK: - Umbrella
         .library(
             name: "Format Primitives",
             targets: ["Format Primitives"]
         ),
 
-        // MARK: - Test Support
         .library(
             name: "Format Primitives Test Support",
             targets: ["Format Primitives Test Support"]
@@ -63,17 +59,15 @@ let package = Package(
             url: "https://github.com/swift-primitives/swift-formatter-primitives.git",
             branch: "main"
         ),
-        // SDG(produces): formatting produces string output
-        // .package(url: "https://github.com/swift-primitives/swift-string-primitives.git", branch: "main"),
+
     ],
     targets: [
-        // MARK: - Namespace
+
         .target(
             name: "Format Primitive",
             dependencies: []
         ),
 
-        // MARK: - Sub-namespace targets (per [MOD-031])
         .target(
             name: "Format Case Primitives",
             dependencies: [
@@ -98,7 +92,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - StdLib Integration
         .target(
             name: "Format Primitives Standard Library Integration",
             dependencies: [
@@ -110,7 +103,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Umbrella
         .target(
             name: "Format Primitives",
             dependencies: [
@@ -122,7 +114,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Test Support
         .target(
             name: "Format Primitives Test Support",
             dependencies: [
@@ -135,7 +126,6 @@ let package = Package(
             path: "Tests/Support"
         ),
 
-        // MARK: - Tests
         .testTarget(
             name: "Formatting Primitives Tests",
             dependencies: [

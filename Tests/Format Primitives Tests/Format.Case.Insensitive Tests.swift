@@ -2,8 +2,6 @@ import Testing
 
 @testable import Format_Primitives
 
-// MARK: - Format.Case.Insensitive
-
 @Suite
 struct `Format.Case.Insensitive - Equality` {
     @Suite struct Unit {}

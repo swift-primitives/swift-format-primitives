@@ -1,5 +1,3 @@
-// exports.swift
-
 @_exported public import Format_Case_Primitives
 @_exported public import Format_Decimal_Primitives
 @_exported public import Format_Numeric_Primitives

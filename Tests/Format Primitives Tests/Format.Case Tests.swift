@@ -3,8 +3,6 @@ import Testing
 
 @testable import Format_Primitives
 
-// MARK: - Format.Case — Presets
-
 @Suite
 struct `Format.Case - Upper` {
     @Suite struct Unit {}
@@ -113,8 +111,6 @@ struct `Format.Case - Sentence` {
     }
 }
 
-// MARK: - Format.Case — Custom
-
 @Suite
 struct `Format.Case - Custom` {
     @Suite struct Unit {}
@@ -133,8 +129,6 @@ struct `Format.Case - Custom` {
         #expect("abc".formatted(reverse) == "cba")
     }
 }
-
-// MARK: - StringProtocol.formatted on Substring
 
 @Suite
 struct `StringProtocol.formatted - Substring` {
@@ -157,8 +151,6 @@ struct `StringProtocol.formatted - Substring` {
     }
 }
 
-// MARK: - Formatter.Protocol conformance
-
 @Suite
 struct `Format.Case - Formatter.Protocol conformance` {
     @Suite struct Unit {}
@@ -173,8 +165,7 @@ struct `Format.Case - Formatter.Protocol conformance` {
 
     @Test
     func `Works via generic formatted<F: Formatter.Protocol>`() {
-        // Generic path: any Formatter.Protocol<String, String, Never> works
-        // through the generic formatted(_:) overload.
+
         func applyAny<F: Formatter.`Protocol`>(_ style: F, to string: String) -> F.Output
         where F.Input == String, F.Failure == Never {
             string.formatted(style)
